@@ -23,7 +23,7 @@ npm install env-loader
 
 Create a `.env` file in the root of your project with your environment variables:
 
-``` .env
+```.env
 DATABASE_URL=postgres://user:password@localhost:5432/mydb
 API_KEY=your_api_key_here
 ```
@@ -31,11 +31,11 @@ API_KEY=your_api_key_here
 Load the environment variables in your application:
 
 ```typescript
-import { loadEnv, EnvConfig } from 'env-loader';
+import { loadEnv, EnvConfig } from "@orzubek/envloader";
 
 const config: EnvConfig = loadEnv();
-console.log('Database URL:', config.DATABASE_URL);
-console.log('API Key:', config.API_KEY);
+console.log("Database URL:", config.DATABASE_URL);
+console.log("API Key:", config.API_KEY);
 ```
 
 ### Specifying a Custom Path
@@ -43,10 +43,10 @@ console.log('API Key:', config.API_KEY);
 You can specify a custom path to your `.env` file:
 
 ```typescript
-import { loadEnv, EnvConfig } from 'env-loader';
+import { loadEnv, EnvConfig } from "@orzubek/envloader";
 
-const config: EnvConfig = loadEnv('path/to/your/.env');
-console.log('Custom Config Loaded:', config);
+const config: EnvConfig = loadEnv("path/to/your/.env");
+console.log("Custom Config Loaded:", config);
 ```
 
 ### Error Handling
@@ -54,13 +54,13 @@ console.log('Custom Config Loaded:', config);
 `env-loader` provides detailed error messages for common issues:
 
 ```typescript
-import { loadEnv, EnvConfig } from 'env-loader';
+import { loadEnv, EnvConfig } from "@orzubek/envloader";
 
 try {
   const config: EnvConfig = loadEnv();
-  console.log('Configuration loaded:', config);
+  console.log("Configuration loaded:", config);
 } catch (error) {
-  console.error('Failed to load configuration:', error);
+  console.error("Failed to load configuration:", error);
 }
 ```
 
@@ -86,7 +86,8 @@ export interface EnvConfig {
 Here’s an example of how to use `env-loader` in a project:
 
 1. Create a `.env` file:
-  ``` makefile
+
+```makefile
   PORT=3000
   DB_HOST=localhost
   DB_USER=root
@@ -96,12 +97,13 @@ Here’s an example of how to use `env-loader` in a project:
 - Load the environment variables in your application:
 
 ```typescript
-  import { loadEnv, EnvConfig } from 'env-loader';
-  
-  const config: EnvConfig = loadEnv();
-  console.log(`Server is running on port ${config.PORT}`);
-  console.log(`Database is hosted on ${config.DB_HOST}`);
+import { loadEnv, EnvConfig } from "@orzubek/envloader";
+
+const config: EnvConfig = loadEnv();
+console.log(`Server is running on port ${config.PORT}`);
+console.log(`Database is hosted on ${config.DB_HOST}`);
 ```
+
 - Run your application, and the environment variables will be loaded and accessible.
 
 ## Contribution
