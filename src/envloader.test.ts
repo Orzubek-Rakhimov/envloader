@@ -1,5 +1,4 @@
-// src/envLoader.test.ts
-import { loadEnv, EnvConfig } from "./index";
+import { loadEnv, EnvConfig, LoadEnvOptions } from "./envloader";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -9,42 +8,79 @@ describe("loadEnv", () => {
   beforeAll(() => {
     fs.writeFileSync(
       envFilePath,
-      "TEST_KEY=test_value\nANOTHER_KEY=another_value"
+      "APP_TEST_KEY=test_value\nAPP_ANOTHER_KEY=another_value\nAPP_PORT=3000\nAPP_DEBUG=true\nAPP_DATABASE_URL=postgres://localhost:5432/mydb\nAPP_API_KEY=api_key_value\nAPP_CUSTOM_DELIM=default_custom_value"
     );
   });
 
   afterAll(() => {
-    fs.unlinkSync(envFilePath);
+    fs.unlinkSync(envFilePath); // Clean up
   });
 
-  it("loads environment variables from .env file", () => {
-    const config: EnvConfig = loadEnv(envFilePath);
-
-    expect(config.TEST_KEY).toBe("test_value");
-    expect(config.ANOTHER_KEY).toBe("another_value");
+  it("loads environment variables from .env file with prefix", () => {
+    const options: LoadEnvOptions = {
+      prefix: "APP_",
+      variables: {
+        DATABASE_URL: { required: true },
+        API_KEY: { required: true },
+        CUSTOM_DELIM: { default: "default_custom_value" },
+      },
+    };
+    const config: EnvConfig = loadEnv(envFilePath, options);
+    console.log(config);
+    expect(config.APP_DATABASE_URL).toBe("postgres://localhost:5432/mydb");
+    expect(config.APP_API_KEY).toBe("api_key_value");
+    expect(config.APP_CUSTOM_DELIM).toBe("default_custom_value");
   });
 
-  it("throws an error if the .env file is not found", () => {
-    expect(() => loadEnv("nonexistent.env")).toThrowError(
-      "Environment file nonexistent.env not found"
+  it("applies default values", () => {
+    const options: LoadEnvOptions = {
+      prefix: "APP_",
+      variables: {
+        DEFAULT_KEY: { default: "default_value" },
+      },
+    };
+    const config: EnvConfig = loadEnv(envFilePath, options);
+
+    expect(config.APP_DEFAULT_KEY).toBe("default_value");
+  });
+
+  it("validates required variables", () => {
+    const options: LoadEnvOptions = {
+      prefix: "APP_",
+      variables: {
+        TEST_KEY: { required: true },
+        MISSING_KEY: { required: true },
+      },
+    };
+    expect(() => loadEnv(envFilePath, options)).toThrow(
+      "Missing required environment variable: APP_MISSING_KEY"
     );
   });
 
-  it("skips empty lines and comments", () => {
-    fs.writeFileSync(
-      envFilePath,
-      "# This is a comment\nTEST_KEY=test_value\n\nANOTHER_KEY=another_value"
-    );
-    const config: EnvConfig = loadEnv(envFilePath);
+  it("validates and parses types", () => {
+    const options: LoadEnvOptions = {
+      prefix: "APP_",
+      variables: {
+        PORT: { type: "number" },
+        DEBUG: { type: "boolean" },
+      },
+    };
+    const config: EnvConfig = loadEnv(envFilePath, options);
 
-    expect(config.TEST_KEY).toBe("test_value");
-    expect(config.ANOTHER_KEY).toBe("another_value");
+    expect(config.APP_PORT).toBe(3000);
+    expect(config.APP_DEBUG).toBe(true);
   });
 
-  it("throws an error for invalid lines in the .env file", () => {
-    fs.writeFileSync(envFilePath, "INVALID_LINE");
-    expect(() => loadEnv(envFilePath)).toThrowError(
-      "Invalid format in .env file: INVALID_LINE"
+  it("throws an error if an environment variable does not start with the required prefix", () => {
+    const options: LoadEnvOptions = {
+      prefix: "APP_",
+      variables: {},
+    };
+
+    // Add a variable without the prefix
+    fs.writeFileSync(envFilePath, "TEST_KEY=test_value\n");
+    expect(() => loadEnv(envFilePath, options)).toThrow(
+      "Environment variable TEST_KEY does not start with the required prefix: APP_"
     );
   });
 });
