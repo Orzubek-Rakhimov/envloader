@@ -13,8 +13,6 @@
 
 Install `env-loader` using npm:
 
-<pre><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>sh</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></pre>
-
 ```sh
 npm install env-loader
 ```
@@ -25,42 +23,38 @@ npm install env-loader
 
 Create a `.env` file in the root of your project with your environment variables:
 
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>bash</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-bash">DATABASE_URL=postgres://user:password@localhost:5432/mydb
+``` .env
+DATABASE_URL=postgres://user:password@localhost:5432/mydb
 API_KEY=your_api_key_here
-</code></div></div></pre>
+```
 
 Load the environment variables in your application:
 
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>typescript</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-typescript">import { loadEnv, EnvConfig } from 'env-loader';
+```typescript
+import { loadEnv, EnvConfig } from 'env-loader';
 
 const config: EnvConfig = loadEnv();
 console.log('Database URL:', config.DATABASE_URL);
 console.log('API Key:', config.API_KEY);
-</code></div></div></pre>
+```
 
 ### Specifying a Custom Path
 
 You can specify a custom path to your `.env` file:
 
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>typescript</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-typescript">import { loadEnv, EnvConfig } from 'env-loader';
+```typescript
+import { loadEnv, EnvConfig } from 'env-loader';
 
 const config: EnvConfig = loadEnv('path/to/your/.env');
 console.log('Custom Config Loaded:', config);
-</code></div></div></pre>
+```
 
 ### Error Handling
 
 `env-loader` provides detailed error messages for common issues:
 
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>typescript</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-typescript">import { loadEnv, EnvConfig } from 'env-loader';
+```typescript
+import { loadEnv, EnvConfig } from 'env-loader';
 
 try {
   const config: EnvConfig = loadEnv();
@@ -68,7 +62,7 @@ try {
 } catch (error) {
   console.error('Failed to load configuration:', error);
 }
-</code></div></div></pre>
+```
 
 ## API
 
@@ -81,36 +75,34 @@ try {
 
 A TypeScript interface representing the configuration object:
 
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>typescript</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-
-<pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-typescript">export interface EnvConfig {
+```typescript
+export interface EnvConfig {
   [key: string]: string;
 }
-</code></div></div></pre>
+```
 
 ## Example
 
 Here’s an example of how to use `env-loader` in a project:
 
 1. Create a `.env` file:
-   <pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>makefile</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-
-- <pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-makefile">PORT=3000
+  ``` makefile
+  PORT=3000
   DB_HOST=localhost
   DB_USER=root
   DB_PASS=password
-  </code></div></div></pre>
+```
+
 - Load the environment variables in your application:
-  <pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>typescript</span><div class="flex items-center"><span class="" data-state="closed"></span></div></div></div></pre>
-- <pre><div class="dark bg-gray-950 rounded-md border-[0.5px] border-token-border-medium"><div class="overflow-y-auto p-4 text-left undefined" dir="ltr"><code class="!whitespace-pre hljs language-typescript">import { loadEnv, EnvConfig } from 'env-loader';
+
+```typescript
+  import { loadEnv, EnvConfig } from 'env-loader';
   
   const config: EnvConfig = loadEnv();
   console.log(`Server is running on port ${config.PORT}`);
   console.log(`Database is hosted on ${config.DB_HOST}`);
-  </code></div></div></pre>
-
+```
 - Run your application, and the environment variables will be loaded and accessible.
--
 
 ## Contribution
 
