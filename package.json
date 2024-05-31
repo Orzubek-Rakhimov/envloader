@@ -14,6 +14,10 @@
     "publish-beta": "npm run test && npm run build && npm publish --tag beta",
     "publish-dryrun": "npm run test && npm run build && npm publish --dry-run"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orzubek-Rakhimov/envloader.git"
+  },
   "keywords": [
     "env",
     "envloader",
@@ -22,6 +26,10 @@
   ],
   "author": "Orzubek Rakhimov",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Orzubek-Rakhimov/envloader/issues"
+  },
+  "homepage": "https://github.com/Orzubek-Rakhimov/envloader#readme",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.13",
