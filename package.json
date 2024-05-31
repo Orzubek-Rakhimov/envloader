@@ -1,5 +1,6 @@
 {
-  "name": "envloader",
+  "name": "@orzubek/envloader",
+  "private": false,
   "version": "0.0.1",
   "description": "load environment files as js objects",
   "main": "dist/index.js",
@@ -10,9 +11,9 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "publish-lib": "npm run test && npm run build && npm publish",
-    "publish-beta": "npm run test && npm run build && npm publish --tag beta",
-    "publish-dryrun": "npm run test && npm run build && npm publish --dry-run"
+    "publish-lib": "npm run test && npm run build && npm publish --access public",
+    "publish-beta": "npm run test && npm run build && npm publish --access public --tag beta",
+    "publish-dryrun": "npm run test && npm run build && npm publish --access public --dry-run"
   },
   "repository": {
     "type": "git",
